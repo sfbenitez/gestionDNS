@@ -41,10 +41,8 @@ if action == '-a':
     elif len(ip) == 1:
         if regtype == '-alias':
             if hostname != '':
-                if iporalias != '':
                     directzone.write(hostname+" IN CNAME "+iporalias+"\n")
-                else:
-                    print("Param [ALIAS] needed")
+                    directzone.close()
             else:
                 print("Param [HOSTNAME] needed")
 
