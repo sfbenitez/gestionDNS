@@ -17,27 +17,38 @@ hostname=sys.argv[3]
 
 if action == '-a':
     directzone=open("/var/cache/bind/db.ferrete.gonzalonazareno.org","a")
-    inversefloatzone=open("/var/cache/bind/db.172.22.200","a")
-    inversestaticzone=open("/var/cache/bind/db.10.0.0","a")
     iporalias=sys.argv[4]
     ip=iporalias.split(".")
-    if regtype == '-dir':
-        if hostname != '':
-            if iporalias != '':
-                directzone.write(hostname+" IN A "+iporalias)
-                inversefloatzone.write(ip[3]+" IN PTR "+hostname)
+    if len(ip) == 4:
+        if regtype == '-dir':
+            if hostname != '':
+                directzone.write(hostname+" IN A "+iporalias+"\n")
+                directzone.close()
+                if ip[0] == '172':
+                    inversefloatzone=open("/var/cache/bind/db.172.22.200","a")
+                    inversefloatzone.write(ip[3]+" IN PTR "+hostname+"\n")
+                    inversefloatzone.close()
+                elif ip[0] == '10':
+                    inversestaticzone=open("/var/cache/bind/db.10.0.0","a")
+                    inversestaticzone.write(ip[3]+" IN PTR "+hostname+"\n")
+                    inversestaticzone.close()
+                else:
+                    print("Added direct resolution for: "+hostname+".ferrete.gonzalonazareno.org at "+iporalias+", but this server has no auhtority of that inverse zone")
             else:
-                print("Param [IP] needed")
+                print("Param [HOSTNAME] needed")
         else:
-            print("Param [HOSTNAME] needed")
-    elif regtype == '-alias':
-        if hostname != '':
-            if iporalias != '':
-                directzone.write(hostname+" IN CNAME "+iporalias)
+            print("Not a valid param number two, must be -dir or -alias")
+    elif len(ip) == 1:
+        if regtype == '-alias':
+            if hostname != '':
+                if iporalias != '':
+                    directzone.write(hostname+" IN CNAME "+iporalias+"\n")
+                else:
+                    print("Param [ALIAS] needed")
             else:
-                print("Param [ALIAS] needed")
-        else:
-            print("Param [HOSTNAME] needed")
+                print("Param [HOSTNAME] needed")
+
     else:
-        print("Not a valid param number two")
+        print("Need specific [IP] or [ALIAS]")
+
 #elif action == '-b':
