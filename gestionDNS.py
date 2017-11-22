@@ -10,22 +10,34 @@ import os
 #recibirá una ip y si has usuado ``-alias`` recibirá el nombre de la máquina
 # a la que le vamos a hacer el alias. Si has utilizado -b no teendrá
 # este parámetro.
-directzone=open("/var/cache/bind/db.ferrete.gonzalonazareno.org","a")
-inversefloatzone=open("/var/cache/bind/db.172.22.200","a")
-inversestaticzone=open("/var/cache/bind/db.10.0.0","a")
 
 action=sys.argv[1]
 regtype=sys.argv[2]
 hostname=sys.argv[3]
-iporalias=sys.argv[4]
 
 if action == '-a':
+    directzone=open("/var/cache/bind/db.ferrete.gonzalonazareno.org","a")
+    inversefloatzone=open("/var/cache/bind/db.172.22.200","a")
+    inversestaticzone=open("/var/cache/bind/db.10.0.0","a")
+    iporalias=sys.argv[4]
+    ip=iporalias.split(".")
     if regtype == '-dir':
-        directzone.write(hostname+" IN A "+iporalias)
-        if iporalias == ''
+        if hostname != '':
+            if iporalias != '':
+                directzone.write(hostname+" IN A "+iporalias)
+                inversefloatzone.write(ip[3]+" IN PTR "+hostname)
+            else:
+                print("Param [IP] needed")
+        else:
+            print("Param [HOSTNAME] needed")
     elif regtype == '-alias':
-        directzone.write(hostname+" IN CNAME "+iporalias)
+        if hostname != '':
+            if iporalias != '':
+                directzone.write(hostname+" IN CNAME "+iporalias)
+            else:
+                print("Param [ALIAS] needed")
+        else:
+            print("Param [HOSTNAME] needed")
     else:
         print("Not a valid param number two")
-elif action == '-b':
-    
+#elif action == '-b':
