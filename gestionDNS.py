@@ -25,7 +25,7 @@ if action == '-a':
     ip=iporalias.split(".")
     filetosearch=open(directzonefile)
     mmapfile=mmap.mmap(filetosearch.fileno(), 0, access=mmap.ACCESS_READ)
-    filetotsearch.close()
+    filetosearch.close()
     if mmapfile.find(hostname+" ") != -1:
         print("That hostname already exist, you can check it: dig "+hostname+".ferrete.gonzanlonazareno.org")
     else:
