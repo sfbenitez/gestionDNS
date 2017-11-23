@@ -27,7 +27,7 @@ if action == '-a':
     mmapfile=mmap.mmap(filetosearch.fileno(), 0, access=mmap.ACCESS_READ)
     filetosearch.close()
     if mmapfile.find(hostname+" ") != -1:
-        print("That hostname already exist, you can check it: dig "+hostname+".ferrete.gonzanlonazareno.org")
+        print("That hostname already exist, you can check it: dig "+hostname+".ferrete.gonzalonazareno.org")
     else:
         if len(ip) == 4:
             if regtype == '-dir':
