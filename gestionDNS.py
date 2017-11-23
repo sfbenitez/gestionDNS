@@ -23,7 +23,7 @@ inversestaticzonefile="/var/cache/bind/db.10.0.0"
 if action == '-a':
     iporalias=sys.argv[4]
     ip=iporalias.split(".")
-    filetosearch=open("")
+    filetosearch=open(directzonefile)
     mmapfile=mmap.mmap(filetosearch.fileno(), 0, access=mmap.ACCESS_READ)
     filetotsearch.close()
     if mmapfile.find(hostname+" ") != -1:
