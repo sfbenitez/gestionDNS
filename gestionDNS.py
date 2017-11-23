@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+import subprocess
 
 #* ``-a`` o ``-b``: Si recibe ``-a`` añadirá un nuevo nombre,
 # si recibe ``-b`` borrará el nombre que ha recibido.
@@ -15,7 +16,7 @@ import os
 action=sys.argv[1]
 regtype=sys.argv[2]
 hostname=sys.argv[3]
-
+restartbind=subprocess.check_call("systemctl restart bind".split())
 if action == '-a':
     directzone=open("/var/cache/bind/db.ferrete.gonzalonazareno.org","a")
     iporalias=sys.argv[4]
@@ -29,10 +30,12 @@ if action == '-a':
                     inversefloatzone=open("/var/cache/bind/db.172.22.200","a")
                     inversefloatzone.write(ip[3]+" IN PTR "+hostname+"\n")
                     inversefloatzone.close()
+                    restartbind
                 elif ip[0] == '10':
                     inversestaticzone=open("/var/cache/bind/db.10.0.0","a")
                     inversestaticzone.write(ip[3]+" IN PTR "+hostname+"\n")
                     inversestaticzone.close()
+                    restartbind
                 else:
                     print("Added direct resolution for: "+hostname+".ferrete.gonzalonazareno.org at "+iporalias+", but this server has no auhtority of that inverse zone")
             else:
@@ -44,6 +47,7 @@ if action == '-a':
             if hostname != '':
                     directzone.write(hostname+" IN CNAME "+iporalias+"\n")
                     directzone.close()
+                    restartbind
             else:
                 print("Param [HOSTNAME] needed")
 
