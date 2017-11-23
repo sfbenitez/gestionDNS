@@ -40,7 +40,7 @@ if action == '-a':
             else:
                 print("Param [HOSTNAME] needed")
         else:
-            print("Not a valid param number two, must be -dir or -alias")
+            print("Can not create ALIAS of IP")
     elif len(ip) == 1:
         if regtype == '-alias':
             if hostname != '':
