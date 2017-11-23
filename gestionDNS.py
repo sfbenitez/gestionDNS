@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-import subprocess
 
 #* ``-a`` o ``-b``: Si recibe ``-a`` añadirá un nuevo nombre,
 # si recibe ``-b`` borrará el nombre que ha recibido.
@@ -16,7 +15,7 @@ import subprocess
 action=sys.argv[1]
 regtype=sys.argv[2]
 hostname=sys.argv[3]
-restartbind=subprocess.check_call("systemctl restart bind".split())
+restartbind=os.system("systemctl restart bind9")
 if action == '-a':
     directzone=open("/var/cache/bind/db.ferrete.gonzalonazareno.org","a")
     iporalias=sys.argv[4]
