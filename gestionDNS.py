@@ -70,7 +70,7 @@ elif action == '-b':
     f = open(directzonefile)
     output = []
     for line in f:
-        if not hostname in line:
+        if not hostname in line.strip():
             output.append(line)
     f.close()
     f = open(directzonefile, 'w')
