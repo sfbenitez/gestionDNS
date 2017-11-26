@@ -30,13 +30,13 @@ if action == '-a':
                         inversefloatzone.write(ip[3]+" IN PTR "+hostname+"\n")
                         inversefloatzone.close()
                         restartbind
-                        print("Done!.")
+                        print("Done!. Check it: dig -t A "+hostname+".ferrete.gonzalonazareno.org")
                     elif ip[0] == '10':
                         inversestaticzone=open(inversestaticzonefile,"a")
                         inversestaticzone.write(ip[3]+" IN PTR "+hostname+"\n")
                         inversestaticzone.close()
                         restartbind
-                        print("Done!.")
+                        print("Done!. Check it: dig -x "+ip[3])
                     else:
                         print("Added direct resolution for: "+hostname+".ferrete.gonzalonazareno.org at "+iporalias+", but this server has no auhtority of that inverse zone")
                 else:
@@ -50,7 +50,7 @@ if action == '-a':
                         directzone.write(hostname+" IN CNAME "+iporalias+"\n")
                         directzone.close()
                         restartbind
-                        print("Done!.")
+                        print("Done!. Check it: dig -t CNAME "+hostname+".ferrete.gonzalonazareno.org")
                 else:
                     print("Param [HOSTNAME] needed")
         else:
